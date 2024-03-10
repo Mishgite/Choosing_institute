@@ -1,0 +1,51 @@
+h4 {
+    padding-left: 20px;
+    color: #e6e6e6;
+}
+tr.mn {
+    text-align: center;
+    background-color: #e6e6e6;
+}
+.tbl {
+    width: 100%;
+    text-align: center;
+    background-color: aliceblue;
+    line-height: 30px;
+}
+.first_line {
+    padding-left: 20px;
+    background-color: #e6e6e6
+}
+
+.user_name {
+    display: inline-block;
+    float: right;
+    margin-right: 1em;
+    margin-top: 0.75em;
+    font-size: 20pt;
+    color: #363636;
+}
+.user_name:hover {
+    text-decoration: none;
+    color: #363636;
+}
+
+a {
+    display: inline-block;
+    float: right;
+    margin-right: 5px;
+    margin-top: 1.25em;
+}
+
+.first_line_content {
+    display: inline-block;
+}
+
+.edit_jobs {
+    display: inline-block;
+}
+
+.title_link {
+    float: left;
+    font-size: 25pt;
+}
