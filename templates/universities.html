@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 align="center">Какие есть университеты</h2>
+    {% for universiti in universities %}
+        <h3>Action #{{ loop.index }}</h3>
+        <table class="tbl">
+            <tr class="mn">
+                <td>Название университета</td>
+                <td>Какие есть факультеты</td>
+                <td>Почта университета</td>
+                <td>Адресс университета</td>
+                <td>Минимальные баллы для поступления</td>
+            </tr>
+            <tr>
+                <td>{{ universiti.name }}</td>
+                <td>{{ universiti.faculty }}</td>
+                <td>{{ universiti.email }}</td>
+                <td>{{ universiti.address }}</td>
+                <td>{{ universiti.min_ege_score }}</td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock %}
