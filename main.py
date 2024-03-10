@@ -15,8 +15,6 @@ from data.universities import Universities
 
 app = Flask(__name__)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 db_session.global_init('db/universities.db')
 db_sess = db_session.create_session()
