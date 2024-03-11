@@ -37,6 +37,36 @@ def works_log():
     return render_template('universities.html', title='Журнал работ', universities=universities)
 
 
+class LoginForm(FlaskForm):
+    email = EmailField('Почта', validators=[DataRequired(), Email()])
+    password = PasswordField('Пароль')
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST':
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.password == form.password.data:
+            login_user(user, remember=form.remember_me.data)
+            return redirect('/')
+        return render_template('login.html',
+                               message="Неправильный логин или пароль",
+                               form=form,
+                               current_user=current_user)
+    return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'
