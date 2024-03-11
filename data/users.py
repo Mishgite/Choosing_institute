@@ -18,6 +18,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
     address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    min_ege_score = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     def check_password(self, password: str) -> bool:
         return password == self.hashed_password

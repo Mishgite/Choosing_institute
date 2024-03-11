@@ -74,6 +74,7 @@ class RegistrationForm(FlaskForm):
     surname = StringField('Фамилия', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
     address = StringField('Адрес', validators=[DataRequired()])
+    min_ege_score = StringField('Баллы ЕГЭ', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -87,6 +88,7 @@ def register():
         user.email = form.email.data
         user.password = form.password.data
         user.address = form.address.data
+        user.min_ege_score = form.min_ege_score.data
         db_sess.add(user)
         db_sess.commit()
 

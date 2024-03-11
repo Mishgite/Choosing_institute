@@ -30,7 +30,7 @@
                 </div>
             {% endfor %}
         </p>
-        {% for elem in [form.surname, form.name, form.address] %}
+        {% for elem in [form.surname, form.name, form.address, form.min_ege_score] %}
             <p>
                 {{ elem.label }}
                 {{ elem(class="form-control") }}
