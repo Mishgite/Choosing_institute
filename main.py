@@ -67,6 +67,32 @@ def logout():
     return redirect("/")
 
 
+class RegistrationForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired(), Email()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    repeat_password = PasswordField('Повторите пароль', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    address = StringField('Адрес', validators=[DataRequired()])
+    submit = SubmitField('Зарегистрироваться')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User()
+        user.surname = form.surname.data
+        user.name = form.name.data
+        user.email = form.email.data
+        user.password = form.password.data
+        user.address = form.address.data
+        db_sess.add(user)
+        db_sess.commit()
+
+    return render_template('register.html', form=form)
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'
