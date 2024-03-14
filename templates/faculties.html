@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 align="center">Какие есть факультеты</h2>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/">Назад</a>
+        <table class="tbl">
+            <tr class="mn">
+                <td>Название факультета</td>
+                <td>Проходной балл</td>
+            </tr>
+            {% for universiti in universities %}
+            <tr>
+                <td>{{ universiti.name }}</td>
+                <td>{{ universiti.score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+{% endblock %}

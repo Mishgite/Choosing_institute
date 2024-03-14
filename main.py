@@ -14,6 +14,9 @@ from flask_wtf import FlaskForm
 from flask_login import login_user, current_user, LoginManager, logout_user, login_required
 from data.universities import Universities
 from data.users import User
+from data.faculties_classes import Faculties_classes
+from data.faculties import Faculties
+from data.classes import Classes
 
 app = Flask(__name__)
 
@@ -47,6 +50,8 @@ class LoginForm(FlaskForm):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect('/')
     if request.method == 'POST':
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
@@ -93,6 +98,12 @@ def register():
         db_sess.commit()
 
     return render_template('register.html', form=form)
+
+
+@app.route('/faculties/<int:id>')
+def faculties(id):
+    universities = db_sess.query(Faculties).filter(Faculties.university_id == id)
+    return render_template('faculties.html', title='Журнал факультетов', universities=universities)
 
 
 if __name__ == '__main__':
