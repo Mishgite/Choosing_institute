@@ -106,6 +106,72 @@ def faculties(id):
     return render_template('faculties.html', title='Журнал факультетов', universities=universities)
 
 
+@app.route('/user_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def job_delete(id: int):
+    db_sess = db_session.create_session()
+    if current_user.id == 1:
+        user = db_sess.query(User).filter(User.id == id).first()
+    else:
+        user = db_sess.query(User).filter(User.id == id,).first()
+    if user:
+        db_sess.delete(user)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
+class UserForm(FlaskForm):
+    email = StringField('Почта', validators=[DataRequired(), Email()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    address = StringField('Адрес', validators=[DataRequired()])
+    min_ege_score = StringField('Баллы ЕГЭ', validators=[DataRequired()])
+    submit = SubmitField('Готово')
+
+
+@app.route('/user/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_job(id: int):
+    form = UserForm()
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        if current_user.id == 1:
+            job = db_sess.query(User).filter(User.id == id).first()
+        else:
+            job = db_sess.query(User).filter(User.id == id,
+                                             User.team_leader == current_user).first()
+        if job:
+            form.email.data = job.email
+            form.password.data = job.password
+            form.surname.data = job.surname
+            form.name.data = job.name
+            form.address.data = job.address
+            form.min_ege_score.data = job.min_ege_score
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        if current_user.id == 1:
+            job = db_sess.query(User).filter(User.id == id).first()
+        else:
+            job = db_sess.query(User).filter(User.id == id).first()
+        if job:
+            job.email = form.email.data
+            job.password = form.password.data
+            job.surname = form.surname.data
+            job.name = form.name.data
+            form.address.data = job.address
+            job.min_ege_score = form.min_ege_score.data
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('user_change.html', title='Изменить работу', form=form)
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'

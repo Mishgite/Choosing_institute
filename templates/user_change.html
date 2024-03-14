@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Изменить работу</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {% for elem in [form.email, form.password, form.surname, form.name, form.address, form.min_ege_score] %}
+            <p>
+                {{ elem.label }}
+                {{ elem(class="form-control") }}
+                {% for error in elem.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        {% if message %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+
+    </form>
+{% endblock %}
