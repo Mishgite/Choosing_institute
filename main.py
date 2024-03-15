@@ -184,6 +184,13 @@ def universities_delete(id: int):
     return redirect('/')
 
 
+@app.route('/faculties_classes/<int:id>', methods=['GET', 'POST'])
+@login_required
+def faculties_classes(id):
+    classes = db_sess.query(Classes).filter(Faculties_classes.faculty_id == id, Faculties_classes.class_id == Classes.id)
+    return render_template('classes.html', title='Журнал факультетов', classe=classes)
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'

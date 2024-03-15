@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 align="center">Какие есть Классы</h2>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/">Назад</a>
+        <table class="tbl">
+            <tr class="mn">
+                <td>Название касса</td>
+            </tr>
+        {% for class in classe %}
+            <tr>
+                <td>{{ class.name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+{% endblock %}
