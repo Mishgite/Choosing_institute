@@ -202,7 +202,7 @@ def users_list():
 @app.route('/change_user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def admin_user(id):
-    pass
+    return 'Пока не готово'
 
 
 
