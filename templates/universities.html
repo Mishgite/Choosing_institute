@@ -9,11 +9,18 @@
                 <td>Название университета</td>
                 <td>Почта университета</td>
                 <td>Адресс университета</td>
+                <td>Факультеты</td>
             </tr>
             <tr>
                 <td>{{ universiti.name }}</td>
                 <td>{{ universiti.email }}</td>
                 <td>{{ universiti.address }}</td>
+                <td>{% for facult in faculties %}
+                    {% if facult.university_id == universiti.id %}
+                    <h5>{{ facult.name }}</h5>
+                    {% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         </table>
         <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ universiti.id }}">Просмотр факультета</a>

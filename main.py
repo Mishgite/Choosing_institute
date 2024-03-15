@@ -37,7 +37,8 @@ def load_user(user_id: int):
 @app.route('/')
 def works_log():
     universities = db_sess.query(Universities).all()
-    return render_template('universities.html', title='Журнал работ', universities=universities)
+    faculties = db_sess.query(Faculties).all()
+    return render_template('universities.html', title='Журнал работ', universities=universities, faculties=faculties)
 
 
 class LoginForm(FlaskForm):
@@ -203,7 +204,6 @@ def users_list():
 @login_required
 def admin_user(id):
     return 'Пока не готово'
-
 
 
 if __name__ == '__main__':
