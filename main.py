@@ -141,8 +141,7 @@ def edit_job(id: int):
         if current_user.id == 1:
             user = db_sess.query(User).filter(User.id == id).first()
         else:
-            user = db_sess.query(User).filter(User.id == id,
-                                             User.team_leader == current_user).first()
+            user = db_sess.query(User).filter(User.id == id).first()
         if user:
             form.email.data = user.email
             form.password.data = user.password
