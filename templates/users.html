@@ -15,9 +15,11 @@
                 <td>{{ user.min_ege_score }}</td>
             </tr>
         </table>
-    {% if user.type == 2 %}
-    <a class="btn btn-outline-primary" href="http://localhost:5000/admin_user/{{ user.id }}">Сделать админом</a>
-    {% endif %}
+    <select>
+        {% for typ in type %}
+        <option>{{typ.type}}</option>
+        {% endfor %}
+    </select>
     <a class="btn btn-outline-primary" href="http://localhost:5000/user/{{ user.id }}">Изменить учётную запись</a>
     {% endfor %}
 {% endblock %}

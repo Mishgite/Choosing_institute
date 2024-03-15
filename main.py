@@ -17,6 +17,7 @@ from data.users import User
 from data.faculties_classes import Faculties_classes
 from data.faculties import Faculties
 from data.classes import Classes
+from data.type import Type
 
 app = Flask(__name__)
 
@@ -197,13 +198,8 @@ def faculties_classes(id):
 @login_required
 def users_list():
     users = db_sess.query(User).all()
-    return render_template('users.html', title='Журнал факультетов', users=users)
-
-
-@app.route('/change_user/<int:id>', methods=['GET', 'POST'])
-@login_required
-def admin_user(id):
-    return 'Пока не готово'
+    type = db_sess.query(Type).all()
+    return render_template('users.html', title='Журнал факультетов', users=users, type=type)
 
 
 if __name__ == '__main__':
