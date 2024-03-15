@@ -108,7 +108,7 @@ def faculties(id):
 
 @app.route('/user_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
-def job_delete(id: int):
+def user_delete(id: int):
     db_sess = db_session.create_session()
     if current_user.id == 1:
         user = db_sess.query(User).filter(User.id == id).first()
@@ -169,6 +169,19 @@ def edit_job(id: int):
         else:
             abort(404)
     return render_template('user_change.html', title='Изменить работу', form=form)
+
+
+@app.route('/universities_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def universities_delete(id: int):
+    db_sess = db_session.create_session()
+    universities = db_sess.query(Universities).filter(Universities.id == id).first()
+    if universities:
+        db_sess.delete(universities)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 if __name__ == '__main__':
