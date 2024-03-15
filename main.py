@@ -123,7 +123,7 @@ def job_delete(id: int):
 
 
 class UserForm(FlaskForm):
-    email = StringField('Почта', validators=[DataRequired(), Email()])
+    email = EmailField('Почта', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     surname = StringField('Фамилия', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
@@ -139,32 +139,32 @@ def edit_job(id: int):
     if request.method == 'GET':
         db_sess = db_session.create_session()
         if current_user.id == 1:
-            job = db_sess.query(User).filter(User.id == id).first()
+            user = db_sess.query(User).filter(User.id == id).first()
         else:
-            job = db_sess.query(User).filter(User.id == id,
+            user = db_sess.query(User).filter(User.id == id,
                                              User.team_leader == current_user).first()
-        if job:
-            form.email.data = job.email
-            form.password.data = job.password
-            form.surname.data = job.surname
-            form.name.data = job.name
-            form.address.data = job.address
-            form.min_ege_score.data = job.min_ege_score
+        if user:
+            form.email.data = user.email
+            form.password.data = user.password
+            form.surname.data = user.surname
+            form.name.data = user.name
+            form.address.data = user.address
+            form.min_ege_score.data = user.min_ege_score
         else:
             abort(404)
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         if current_user.id == 1:
-            job = db_sess.query(User).filter(User.id == id).first()
+            user = db_sess.query(User).filter(User.id == id).first()
         else:
-            job = db_sess.query(User).filter(User.id == id).first()
-        if job:
-            job.email = form.email.data
-            job.password = form.password.data
-            job.surname = form.surname.data
-            job.name = form.name.data
-            form.address.data = job.address
-            job.min_ege_score = form.min_ege_score.data
+            user = db_sess.query(User).filter(User.id == id).first()
+        if user:
+            user.email = form.email.data
+            user.password = form.password.data
+            user.surname = form.surname.data
+            user.name = form.name.data
+            form.address.data = user.address
+            user.min_ege_score = form.min_ege_score.data
             db_sess.commit()
             return redirect('/')
         else:
