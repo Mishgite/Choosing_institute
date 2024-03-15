@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 align="center">Какие есть факультеты</h2>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/">Назад</a>
+    {% for user in users %}
+        <table class="tbl">
+            <tr class="mn">
+                <td>Название факультета</td>
+                <td>Проходной балл</td>
+            </tr>
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.min_ege_score }}</td>
+            </tr>
+        </table>
+    {% if user.type == 2 %}
+    <a class="btn btn-outline-primary" href="http://localhost:5000/admin_user/{{ user.id }}">Сделать админом</a>
+    {% endif %}
+    <a class="btn btn-outline-primary" href="http://localhost:5000/user/{{ user.id }}">Изменить учётную запись</a>
+    {% endfor %}
+{% endblock %}

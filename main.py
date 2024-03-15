@@ -187,8 +187,23 @@ def universities_delete(id: int):
 @app.route('/faculties_classes/<int:id>', methods=['GET', 'POST'])
 @login_required
 def faculties_classes(id):
-    classes = db_sess.query(Classes).filter(Faculties_classes.faculty_id == id, Faculties_classes.class_id == Classes.id)
+    classes = db_sess.query(Classes).filter(Faculties_classes.faculty_id == id,
+                                            Faculties_classes.class_id == Classes.id)
     return render_template('classes.html', title='Журнал факультетов', classe=classes)
+
+
+@app.route('/users_list', methods=['GET', 'POST'])
+@login_required
+def users_list():
+    users = db_sess.query(User).all()
+    return render_template('users.html', title='Журнал факультетов', users=users)
+
+
+@app.route('/change_user/<int:id>', methods=['GET', 'POST'])
+@login_required
+def admin_user(id):
+    pass
+
 
 
 if __name__ == '__main__':
