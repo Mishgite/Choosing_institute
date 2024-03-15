@@ -67,6 +67,22 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+class ScoresForm(FlaskForm):
+    score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=0)
+    submit = SubmitField('Подобрать')
+
+
+@app.route('/index_universiti', methods=['GET', 'POST'])
+def index():
+    form = ScoresForm()
+    if form.validate_on_submit():
+        results = db_sess.query(Universities, Faculties).filter(Universities.id == Faculties.university_id
+                                                                ).filter(Faculties.score <= form.score.data).all()
+
+        return render_template('results.html', title='Результаты', results=results)
+    return render_template('index.html', title='Подбор университета', form=form)
+
+
 @app.route('/logout')
 @login_required
 def logout():

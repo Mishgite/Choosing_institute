@@ -23,6 +23,7 @@
 <body>
 <div class="first_line">
     <h1 class="first_line_content">Подбор университета</h1>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/index_universiti">Подобрать университет</a>
     {% if current_user.is_authenticated %}
         <a class="btn btn-outline-primary" href="http://localhost:5000/logout">{{ current_user.surname }} {{ current_user.name }}</a>
         <a class="btn btn-outline-primary" href="http://localhost:5000/user/{{ current_user.id }}">Изменить профиль</a>
