@@ -114,6 +114,7 @@ def register():
         user.min_ege_score = form.min_ege_score.data
         db_sess.add(user)
         db_sess.commit()
+        return redirect("/")
 
     return render_template('register.html', form=form)
 
@@ -203,7 +204,6 @@ def universities_delete(id: int):
 
 
 @app.route('/faculties_classes/<int:id>', methods=['GET', 'POST'])
-@login_required
 def faculties_classes(id):
     classes = db_sess.query(Classes).filter(Faculties_classes.faculty_id == id,
                                             Faculties_classes.class_id == Classes.id)
