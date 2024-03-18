@@ -23,6 +23,7 @@
                 </td>
             </tr>
         </table>
+        <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ universiti.id }}">Отправить заявление в институт</a>
         <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ universiti.id }}">Просмотр факультета</a>
         {% if current_user.type == 1 %}
         <a class="btn btn-outline-primary" href="http://localhost:5000/universities_delete/{{ universiti.id }}">Удаление университета</a>

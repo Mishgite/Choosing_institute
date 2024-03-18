@@ -218,6 +218,24 @@ def users_list():
     return render_template('users.html', title='Журнал факультетов', users=users, type=type)
 
 
+class SendingForm(FlaskForm):
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    patronymic = StringField('Отчество', validators=[DataRequired()])
+    email = EmailField('Почта', validators=[DataRequired(), Email()])
+    address = StringField('Адрес', validators=[DataRequired()])
+    min_ege_score = IntegerField('Баллы ЕГЭ', validators=[DataRequired()])
+    want = StringField('Почему вы хотите на данный факультет', validators=[DataRequired()])
+    submit = SubmitField('Готово')
+
+
+@app.route('/sending/<int:id>', methods=['GET', 'POST'])
+@login_required
+def sending(id):
+    universities = db_sess.query(Universities).filter(Faculties.university_id == id)
+    return render_template('sending.html', title='Журнал факультетов', universities=universities)
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'
