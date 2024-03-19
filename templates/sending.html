@@ -8,8 +8,9 @@
         <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Имя">
         <input type="text" class="form-control" id="patronymic" aria-describedby="emailHelp" placeholder="Отчество">
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Введите адрес почты">
+        <input type="email" class="form-control" id="address" aria-describedby="emailHelp" placeholder="Введите адрес проживания">
         <div class="form-group">
-            <label for="classSelect">Выберете факультет</label>
+            <label>Выберете факультет</label>
             <select class="form-control" id="facultie" name="class">
                 {% for faculti in faculties%}
                     <option>{{ faculti.name }}</option>
@@ -21,7 +22,7 @@
             <textarea class="form-control" id="about" rows="3" name="about"></textarea>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" id="surname" aria-describedby="emailHelp" placeholder="Баллы ЕГЭ" >
+            <input type="text" class="form-control" id="EGA" aria-describedby="emailHelp" placeholder="Баллы ЕГЭ" >
         </div>
         <div class="form-group">
             <label for="file">Приложите аттестат</label>
