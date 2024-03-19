@@ -6,20 +6,18 @@
     {% for user in users %}
         <table class="tbl">
             <tr class="mn">
-                <td>Название факультета</td>
-                <td>Проходной балл</td>
+                <td>Имя</td>
+                <td>Фамилия</td>
+                <td>Баллы ЕГЭ</td>
+                <td>Статус</td>
             </tr>
             <tr>
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.min_ege_score }}</td>
+                <td>{{ user.type }}</td>
             </tr>
         </table>
-    <select>
-        {% for typ in type %}
-        <option>{{typ.type}}</option>
-        {% endfor %}
-    </select>
     <a class="btn btn-outline-primary" href="http://localhost:5000/user/{{ user.id }}">Изменить учётную запись</a>
     {% endfor %}
 {% endblock %}

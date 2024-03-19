@@ -232,8 +232,8 @@ class SendingForm(FlaskForm):
 @app.route('/sending/<int:id>', methods=['GET', 'POST'])
 @login_required
 def sending(id):
-    universities = db_sess.query(Universities).filter(Faculties.university_id == id)
-    return render_template('sending.html', title='Журнал факультетов', universities=universities)
+    faculties = db_sess.query(Faculties).filter(Faculties.university_id == id)
+    return render_template('sending.html', title='Журнал факультетов', faculties=faculties)
 
 
 if __name__ == '__main__':
