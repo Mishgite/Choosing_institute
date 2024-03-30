@@ -4,11 +4,14 @@
 <h1>Форма для отправки заявления в институт</h1>
 <div>
     <form class="login_form" method="post">
-        <input type="text" class="form-control" id="surname" aria-describedby="emailHelp" placeholder="Фамилия" >
-        <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Имя">
-        <input type="text" class="form-control" id="patronymic" aria-describedby="emailHelp" placeholder="Отчество">
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Введите адрес почты">
-        <input type="email" class="form-control" id="address" aria-describedby="emailHelp" placeholder="Введите адрес проживания">
+        <label for="about">Фамилия</label>
+        <input type="text" class="form-control" id="surname" aria-describedby="emailHelp" placeholder="{{ current_user.surname }}" >
+        <label for="about">Имя</label>
+        <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="{{ current_user.name }}">
+        <label for="about">Почта</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="{{ current_user.email }}">
+        <label for="about">Адрес</label>
+        <input type="text" class="form-control" id="address" aria-describedby="emailHelp" placeholder="{{ current_user.address }}">
         <div class="form-group">
             <label>Выберете факультет</label>
             <select class="form-control" id="facultie" name="class">
@@ -22,7 +25,8 @@
             <textarea class="form-control" id="about" rows="3" name="about"></textarea>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" id="EGA" aria-describedby="emailHelp" placeholder="Баллы ЕГЭ" >
+            <label for="file">Баллы ОГЭ</label>
+            <input type="text" class="form-control" id="EGA" aria-describedby="emailHelp" placeholder="{{ current_user.min_ege_score }}" >
         </div>
         <div class="form-group">
             <label for="file">Приложите аттестат</label>
