@@ -27,6 +27,7 @@ login_manager.init_app(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_session.global_init(os.path.join(basedir, 'db', 'universities.db'))
 db_sess = db_session.create_session()
+id_usr = 1
 
 
 @login_manager.user_loader
@@ -51,6 +52,7 @@ class LoginForm(FlaskForm):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global id_usr
     form = LoginForm()
     if current_user.is_authenticated:
         return redirect('/')
@@ -59,6 +61,7 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.password == form.password.data:
             login_user(user, remember=form.remember_me.data)
+            id_usr = user.id
             return redirect('/')
         return render_template('login.html',
                                message="Неправильный логин или пароль",
@@ -68,7 +71,8 @@ def login():
 
 
 class ScoresForm(FlaskForm):
-    score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=0)
+    db = db_sess.query(User).filter(User.id == id_usr).first()
+    score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=db.min_ege_score)
     submit = SubmitField('Подобрать')
 
 
