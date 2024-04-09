@@ -1,6 +1,7 @@
 import sqlalchemy
 from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import relationship
 
 
 class Universities(SqlAlchemyBase, SerializerMixin):
@@ -11,3 +12,4 @@ class Universities(SqlAlchemyBase, SerializerMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    faculties = relationship('Faculties')

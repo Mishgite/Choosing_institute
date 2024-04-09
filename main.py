@@ -39,8 +39,7 @@ def load_user(user_id: int):
 @app.route('/')
 def works_log():
     universities = db_sess.query(Universities).all()
-    faculties = db_sess.query(Faculties).all()
-    return render_template('universities.html', title='Журнал работ', universities=universities, faculties=faculties)
+    return render_template('universities.html', title='Университеты', universities=universities)
 
 
 class LoginForm(FlaskForm):
@@ -71,20 +70,19 @@ def login():
 
 
 class ScoresForm(FlaskForm):
-    db = db_sess.query(User).filter(User.id == id_usr).first()
-    score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=db.min_ege_score)
+    user = db_sess.query(User).filter(User.id == id_usr).first()
+    score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=user.min_ege_score)
     submit = SubmitField('Подобрать')
 
 
-@app.route('/index_universiti', methods=['GET', 'POST'])
+@app.route('/select_universities', methods=['GET', 'POST'])
 def index():
     form = ScoresForm()
     if form.validate_on_submit():
         results = db_sess.query(Universities, Faculties).filter(Universities.id == Faculties.university_id
                                                                 ).filter(Faculties.score <= form.score.data).all()
-
-        return render_template('results.html', title='Результаты', results=results)
-    return render_template('index.html', title='Подбор университета', form=form)
+        return render_template('results.html', title='Результат', results=results)
+    return render_template('select_universities.html', title='Подбор университета', form=form)
 
 
 @app.route('/logout')

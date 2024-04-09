@@ -1,32 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 align="center">Какие есть университеты</h2>
-    {% for universiti in universities %}
-        <h3>Action #{{ loop.index }}</h3>
+    <h2 align="center">Университеты</h2>
         <table class="tbl">
             <tr class="mn">
-                <td>Название университета</td>
-                <td>Почта университета</td>
-                <td>Адресс университета</td>
-                <td>Факультеты</td>
+                <td>Название</td>
+                <td>Почта</td>
+                <td>Адрес</td>
+                <td>Факультет</td>
+                <td>Балл</td>
+                <td>Действия</td>
             </tr>
+            {% for university in universities %}
+            {% set faculties = university.faculties %}
+            {% set f_number = faculties|length %}
             <tr>
-                <td>{{ universiti.name }}</td>
-                <td>{{ universiti.email }}</td>
-                <td>{{ universiti.address }}</td>
-                <td>{% for facult in faculties %}
-                    {% if facult.university_id == universiti.id %}
-                    <h5>{{ facult.name }}</h5>
-                    {% endif %}
-                    {% endfor %}
+                <td rowspan="{{f_number}}">{{ university.name }}</td>
+                <td rowspan="{{f_number}}">{{ university.email }}</td>
+                <td rowspan="{{f_number}}">{{ university.address }}</td>
+                <td>{{ faculties[0].name }}</td>
+                <td>{{ faculties[0].score }}</td>
+                <td>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ faculties[0].id }}">Отправить заявление на приём</a>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ faculties[0].id }}">Просмотр факультета</a>
                 </td>
             </tr>
+            {% for faculty in faculties %}
+            {% if loop.index != 1 %}
+            <tr>
+                <td>{{ faculty.name }}</td>
+                <td>{{ faculty.score }}</td>
+                <td>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ faculty.id }}">Отправить заявление на приём</a>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ faculty.id }}">Просмотр факультета</a>
+                </td>
+            </tr>
+            {% endif %}
+
+            {% endfor %}
+            {% endfor %}
         </table>
-        <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ universiti.id }}">Отправить заявление в институт</a>
-        <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ universiti.id }}">Просмотр факультета</a>
-        {% if current_user.type == 1 %}
-        <a class="btn btn-outline-primary" href="http://localhost:5000/universities_delete/{{ universiti.id }}">Удаление университета</a>
-        {% endif %}
-    {% endfor %}
 {% endblock %}

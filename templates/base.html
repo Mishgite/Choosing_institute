@@ -23,19 +23,20 @@
 <body>
 <div class="first_line">
     <h1 class="first_line_content">Подбор университета</h1>
-    <a class="btn btn-outline-primary" href="http://localhost:5000/index_universiti">Подобрать университет</a>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/">Университеты</a>
+    <a class="btn btn-outline-primary" href="http://localhost:5000/select_universities">Подобрать университет</a>
     {% if current_user.is_authenticated %}
         <a class="btn btn-outline-primary" href="http://localhost:5000/logout">{{ current_user.surname }} {{ current_user.name }}</a>
         <a class="btn btn-outline-primary" href="http://localhost:5000/user/{{ current_user.id }}">Изменить профиль</a>
     {% else %}
-        <a class="btn btn-outline-primary" href="http://localhost:5000/register">Зарегестрироваться</a>
+        <a class="btn btn-outline-primary" href="http://localhost:5000/register">Зарегистрироваться</a>
         <a class="btn btn-outline-primary" href="http://localhost:5000/login">Войти</a>
     {% endif %}
     {% if current_user.type == 1 %}
     <a class="btn btn-outline-primary" href="http://localhost:5000/users_list">Список пользователей</a>
     {% endif %}
 </div>
-<h4>Если вы сдали ЕГЭ здесь найдёте и Университет</h4>
+<h4>Если вы сдали ЕГЭ, здесь вы найдёте Университет</h4>
 <main role="main" class="container">
     {% block content %}{% endblock %}
 </main>
