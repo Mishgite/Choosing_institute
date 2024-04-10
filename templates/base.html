@@ -32,7 +32,7 @@
         <a class="btn btn-outline-primary" href="http://localhost:5000/register">Зарегистрироваться</a>
         <a class="btn btn-outline-primary" href="http://localhost:5000/login">Войти</a>
     {% endif %}
-    {% if current_user.type == 1 %}
+    {% if current_user.is_authenticated and current_user.type == 1 %}
     <a class="btn btn-outline-primary" href="http://localhost:5000/users_list">Список пользователей</a>
     {% endif %}
 </div>

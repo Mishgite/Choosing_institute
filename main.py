@@ -238,6 +238,31 @@ def sending(id):
     return render_template('sending.html', title='Журнал факультетов', faculties=faculties)
 
 
+class UniversityForm(FlaskForm):
+    name = StringField('Название', validators=[DataRequired()])
+    email = EmailField('Почта', validators=[DataRequired(), Email()])
+    address = StringField('Адрес', validators=[DataRequired()])
+    submit = SubmitField('Готово')
+
+
+@app.route('/add_university', methods=['GET', 'POST'])
+@login_required
+def add_university():
+    form = UniversityForm()
+    if form.validate_on_submit():
+        university = Universities(name=form.name.data, email=form.email.data, address=form.address.data)
+        db_sess.add(university)
+        db_sess.commit()
+        return redirect(f'/universities/{university.id}')
+    return render_template('add_university.html', title='Добавить университет', form=form)
+
+@app.route('/universities/<int:id>', methods=['GET', 'POST'])
+@login_required
+def view_university(id):
+    university = db_sess.query(Universities).filter_by(id = id).first()
+    return render_template('view_university.html', title='Университет', university=university)
+
+
 if __name__ == '__main__':
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'
