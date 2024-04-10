@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 align="center">Университет</h2>
+        <table class="tbl">
+            <tr>
+                <td>Название</td>
+                <td>{{ university.name }}</td>
+            </tr>
+            <tr>
+                <td>Почта</td>
+                <td>{{ university.email }}</td>
+            </tr>
+            <tr>
+                <td>Адрес</td>
+                <td>{{ university.address }}</td>
+            </tr>
+        </table>
+{% endblock %}
