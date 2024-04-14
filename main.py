@@ -12,12 +12,16 @@ from wtforms import StringField, PasswordField, SubmitField, EmailField, Boolean
 from wtforms.validators import DataRequired, Email, NumberRange
 from flask_wtf import FlaskForm
 from flask_login import login_user, current_user, LoginManager, logout_user, login_required
+from data import __all_models
 from data.universities import Universities
 from data.users import User
 from data.faculties_classes import Faculties_classes
 from data.faculties import Faculties
 from data.classes import Classes
 from data.type import Type
+import hashlib
+
+sha256_hash = hashlib.new('sha256')
 
 app = Flask(__name__)
 
@@ -58,7 +62,7 @@ def login():
     if request.method == 'POST':
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
-        if user and user.password == form.password.data:
+        if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             id_usr = user.id
             return redirect('/')
@@ -111,7 +115,8 @@ def register():
         user.surname = form.surname.data
         user.name = form.name.data
         user.email = form.email.data
-        user.password = form.password.data
+        sha256_hash.update(form.password.data.encode())
+        user.hashed_password = sha256_hash.hexdigest()
         user.address = form.address.data
         user.min_ege_score = form.min_ege_score.data
         db_sess.add(user)
