@@ -2,8 +2,8 @@ import os
 from flask import Flask, url_for, request, render_template, redirect, abort
 import requests
 import json
-import random
 import sqlite3
+import random
 from data import db_session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
