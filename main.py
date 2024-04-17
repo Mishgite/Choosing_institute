@@ -26,6 +26,7 @@ sha256_hash = hashlib.new('sha256')
 app = Flask(__name__)
 
 login_manager = LoginManager()
+login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -261,11 +262,27 @@ def add_university():
         return redirect(f'/universities/{university.id}')
     return render_template('add_university.html', title='Добавить университет', form=form)
 
+
 @app.route('/universities/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_university(id):
     university = db_sess.query(Universities).filter_by(id = id).first()
     return render_template('view_university.html', title='Университет', university=university)
+
+
+@app.route('/edit_university/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_university(id):
+    university = db_sess.query(Universities).filter_by(id=id).first()
+    form = UniversityForm(name=university.name, email=university.email, address=university.address)
+    if form.validate_on_submit():
+        university.name = form.name.data
+        university.email = form.email.data
+        university.address = form.address.data
+        db_sess.add(university)
+        db_sess.commit()
+        return redirect(f'/universities/{university.id}')
+    return render_template('edit_university.html', title='Редактировать университет', form=form)
 
 
 if __name__ == '__main__':
