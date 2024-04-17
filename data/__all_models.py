@@ -1,1 +1,2 @@
-from data import universities
+from . import universities
+from . import competitions

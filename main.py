@@ -32,6 +32,7 @@ login_manager.init_app(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_session.global_init(os.path.join(basedir, 'db', 'universities.db'))
 db_sess = db_session.create_session()
+
 id_usr = 1
 
 

@@ -7,7 +7,8 @@ comp_to_university = sqlalchemy.Table(
     'comp_to_university',
     SqlAlchemyBase.metadata,
     sqlalchemy.Column('comp', sqlalchemy.Integer, sqlalchemy.ForeignKey('competitions.id')),
-    sqlalchemy.Column('university', sqlalchemy.Integer, sqlalchemy.ForeignKey('universities.id'))
+    sqlalchemy.Column('university', sqlalchemy.Integer, sqlalchemy.ForeignKey('universities.id')),
+    sqlalchemy.Column('score', sqlalchemy.Integer)
 )
 
 

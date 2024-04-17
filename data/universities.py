@@ -14,3 +14,6 @@ class Universities(SqlAlchemyBase, SerializerMixin):
     address = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     deleted = sqlalchemy.Column(sqlalchemy.Boolean, default=False, nullable=False)
     faculties = relationship('Faculties')
+    competitions = relationship('Competitions',
+                                secondary='comp_to_university',
+                                backref='universities')

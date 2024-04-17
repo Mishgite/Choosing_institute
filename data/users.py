@@ -3,6 +3,9 @@ import sqlalchemy
 from flask_login import UserMixin
 from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer import SerializerMixin
+import hashlib
+
+sha256_hash = hashlib.new('sha256')
 
 
 class User(SqlAlchemyBase, UserMixin, SerializerMixin):
@@ -22,4 +25,5 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     type = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     def check_password(self, password: str) -> bool:
-        return password == self.hashed_password
+        sha256_hash.update(password.encode())
+        return sha256_hash.hexdigest() == self.hashed_password
