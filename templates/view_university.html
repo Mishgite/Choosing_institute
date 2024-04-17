@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if current_user.is_authenticated and current_user.type == 4 %}
+<a class="btn btn-outline-primary" href="http://localhost:5000/edit_university/{{ university.id }}">Редактировать университет</a>
+<a class="btn btn-outline-primary" href="http://localhost:5000/delete_university/{{ university.id }}">Удалить университет</a>
+{% endif %}
     <h2 align="center">Университет</h2>
         <table class="tbl">
             <tr>

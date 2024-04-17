@@ -9,8 +9,8 @@ class Universities(SqlAlchemyBase, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
-    address = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=False)
+    address = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    deleted = sqlalchemy.Column(sqlalchemy.Boolean, default=False, nullable=False)
     faculties = relationship('Faculties')
-    competitions = relationship('Competitions')
