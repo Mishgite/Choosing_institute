@@ -12,6 +12,8 @@ from wtforms import StringField, PasswordField, SubmitField, EmailField, Boolean
 from wtforms.validators import DataRequired, Email, NumberRange
 from flask_wtf import FlaskForm
 from flask_login import login_user, current_user, LoginManager, logout_user, login_required
+from flask_restful import Api, abort
+from resources import users_resource, universities_resource
 from data import __all_models
 from data.universities import Universities
 from data.users import User
@@ -24,6 +26,7 @@ import hashlib
 sha256_hash = hashlib.new('sha256')
 
 app = Flask(__name__)
+api = Api(app)
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -287,6 +290,18 @@ def edit_university(id):
 
 
 if __name__ == '__main__':
+    from api import api_users, api_universities
+    from resources import users_resource, universities_resource
+
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'random_key'
+
+    api.add_resource(users_resource.UsersResource, 'api/v2/users/<int:user_id>')
+    api.add_resource(users_resource.UsersResource, 'api/v2/users')
+    api.add_resource(universities_resource.UniversitiesResource, 'api/v2/universities/<int:university_id>')
+    api.add_resource(universities_resource.UniversitiesResource, 'api/v2/universities')
+
+    app.register_blueprint(api_users.blueprint)
+    app.register_blueprint(api_universities.blueprint)
+
     app.run(port=5000, host='127.0.0.1')
