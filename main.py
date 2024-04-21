@@ -45,9 +45,10 @@ def load_user(user_id: int):
 
 
 @app.route('/')
+@app.route('/home')
 def works_log():
     universities = db_sess.query(Universities).all()
-    return render_template('universities.html', title='Университеты', universities=universities)
+    return render_template('mainwindow.html', title='Университеты', universities=universities)
 
 
 class LoginForm(FlaskForm):
@@ -76,12 +77,19 @@ def login():
                                current_user=current_user)
     return render_template('login.html', title='Авторизация', form=form)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+
+
+
 
 class ScoresForm(FlaskForm):
     user = db_sess.query(User).filter(User.id == id_usr).first()
     score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=user.min_ege_score)
     submit = SubmitField('Подобрать')
-
 
 @app.route('/select_universities', methods=['GET', 'POST'])
 def index():
