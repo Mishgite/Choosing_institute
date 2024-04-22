@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 align="center">Результаты</h2>
-<table class="tbl">
-    <tr class="mn">
-        <td>Название</td>
-        <td>Факультет</td>
-        <td>Балл</td>
-        <td>Предметы</td>
-    </tr>
-    {% for result in results %}
-    <tr>
-        <td>{{ result[0].name }}</td>
-        <td>{{ result[1].name }}</td>
-        <td>{{ result[1].score }}</td>
-        <td>
-                {% for lclass in  result[1].fclasses %}
-                <p>{{ lclass.name }}</p>
-                {% endfor %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+<main class="container form-signin w-50 m-auto">
+    <h2 align="center">Результаты</h2>
+    <table class="tbl">
+        <tr class="mn">
+            <td>Название</td>
+            <td>Факультет</td>
+            <td>Балл</td>
+            <td>Предметы</td>
+        </tr>
+        {% for result in results %}
+        <tr>
+            <td>{{ result[0].name }}</td>
+            <td>{{ result[1].name }}</td>
+            <td>{{ result[1].score }}</td>
+            <td>
+                    {% for lclass in  result[1].fclasses %}
+                    <p>{{ lclass.name }}</p>
+                    {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

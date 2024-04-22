@@ -81,11 +81,6 @@ def login():
 def about():
     return render_template('about.html')
 
-
-
-
-
-
 class ScoresForm(FlaskForm):
     user = db_sess.query(User).filter(User.id == id_usr).first()
     score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=user.min_ege_score)
@@ -109,14 +104,14 @@ def logout():
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Почта', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     repeat_password = PasswordField('Повторите пароль', validators=[DataRequired()])
-    surname = StringField('Фамилия', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
     address = StringField('Адрес', validators=[DataRequired()])
     min_ege_score = StringField('Баллы ЕГЭ', validators=[DataRequired()])
-    submit = SubmitField('Зарегистрироваться')
+    submit = SubmitField('Создать Аккаунт')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -133,6 +128,7 @@ def register():
         user.min_ege_score = form.min_ege_score.data
         db_sess.add(user)
         db_sess.commit()
+        print(user.surname)
         return redirect("/")
 
     return render_template('register.html', form=form)

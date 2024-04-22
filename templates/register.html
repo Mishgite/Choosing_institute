@@ -53,27 +53,73 @@
 
 
 <main class="container form-signin w-50 m-auto">
-  <form>
-    <h1 class="h3 mb-3 fw-normal">Пожалуйста, зарегестрируйтесь</h1>
+  	<h2>Регистрация</h2>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label}}<br>
+            {{ form.email(class="form-control", type="email", placeholder="name@example.com") }}<br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label}}<br>
+            {{ form.password(class="form-control", type="password", placeholder="Введите пароль") }}<br>
+            {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.repeat_password.label }}<br>
+            {{ form.repeat_password(class="form-control", type="password", placeholder="Повторите пароль") }}
+            {% for error in form.repeat_password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control", type="floatingInput", placeholder="Иван") }}
+            {% for error in form.repeat_password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.surname.label }}<br>
+            {{ form.surname(class="form-control", type="floatingInput", placeholder="Иванов") }}
+            {% for error in form.repeat_password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.address.label }}<br>
+            {{ form.address(class="form-control", type="floatingInput", placeholder="Москва, Красная Площадь, 1") }}
+            {% for error in form.repeat_password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.min_ege_score.label }}<br>
+            {{ form.min_ege_score(class="form-control", type="floatingInput", placeholder="999") }}
+            {% for error in form.repeat_password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
 
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email адрес</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Пароль</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword1" placeholder="Password">
-      <label for="floatingPassword">Повторите пароль</label>
-    </div>
-
-    </div>
-    <button class="btn btn-primary w-100 py-2" type="submit">Создать Аккаунт</button>
-    <p class="mt-5 mb-3 text-body-secondary">© 2024</p>
-  </form>
-</main>
-<script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
 {% endblock %}

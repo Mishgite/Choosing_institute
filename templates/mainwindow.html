@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Главная страница
+Выбор университетов
 {% endblock %}
 {% block content %}
 {% if current_user.is_authenticated and current_user.type == 4 %}
 <a class="contain btn btn-outline-primary" href="http://localhost:5000/add_university">Добавить университет</a>
 {% endif %}
+<main class="container form-signin w-80 m-auto">
     <h2 align="center">Университеты</h2>
         <table class="tbl">
             <tr class="mn">
