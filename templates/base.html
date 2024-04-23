@@ -36,6 +36,9 @@
                 <a href="/login" type="button" class="btn btn-outline-primary me-2">Войти</a>
                 <a href="/register" type="button" class="btn btn-outline-primary me-2">Создать аккаунт</a>
             {% endif %}
+            {% if current_user.is_authenticated and current_user.type == 1 %}
+                <a class="btn btn-outline-primary" href="http://localhost:5000/users_list">Список пользователей</a>
+            {% endif %}
     </div>
     </header>
     {% block content %}{% endblock %}
