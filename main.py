@@ -77,14 +77,17 @@ def login():
                                current_user=current_user)
     return render_template('login.html', title='Авторизация', form=form)
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 class ScoresForm(FlaskForm):
     user = db_sess.query(User).filter(User.id == id_usr).first()
     score = IntegerField('Ваш балл', validators=[NumberRange(min=0, max=400)], default=user.min_ege_score)
     submit = SubmitField('Подобрать')
+
 
 @app.route('/select_universities', methods=['GET', 'POST'])
 def index():
@@ -178,7 +181,6 @@ def edit_job(id: int):
             user = db_sess.query(User).filter(User.id == id).first()
         if user:
             form.email.data = user.email
-            form.password.data = user.password
             form.surname.data = user.surname
             form.name.data = user.name
             form.address.data = user.address
@@ -193,7 +195,8 @@ def edit_job(id: int):
             user = db_sess.query(User).filter(User.id == id).first()
         if user:
             user.email = form.email.data
-            user.password = form.password.data
+            sha256_hash.update(form.password.data.encode())
+            user.hashed_password = sha256_hash.hexdigest()
             user.surname = form.surname.data
             user.name = form.name.data
             form.address.data = user.address
