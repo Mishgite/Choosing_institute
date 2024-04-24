@@ -293,12 +293,15 @@ def edit_university(id):
     return render_template('edit_university.html', title='Редактировать университет', form=form)
 
 
+app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'random_key'
+
+
 if __name__ == '__main__':
     from api import api_users, api_universities
     from resources import users_resource, universities_resource
 
-    app.config['DEBUG'] = True
-    app.config['SECRET_KEY'] = 'random_key'
+
 
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
     api.add_resource(users_resource.UsersListResource, '/api/v2/users')
