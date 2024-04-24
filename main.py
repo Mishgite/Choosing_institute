@@ -47,7 +47,7 @@ def load_user(user_id: int):
 @app.route('/')
 @app.route('/home')
 def works_log():
-    universities = db_sess.query(Universities).all()
+    universities = db_sess.query(Universities).filter_by(deleted=0).all()
     return render_template('mainwindow.html', title='Университеты', universities=universities)
 
 
@@ -206,13 +206,13 @@ def edit_job(id: int):
     return render_template('user_change.html', title='Изменить работу', form=form)
 
 
-@app.route('/universities_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete_university/<int:id>', methods=['GET', 'POST'])
 @login_required
-def universities_delete(id: int):
-    db_sess = db_session.create_session()
-    universities = db_sess.query(Universities).filter(Universities.id == id).first()
-    if universities:
-        db_sess.delete(universities)
+def delete_university(id: int):
+    university = db_sess.query(Universities).filter(Universities.id == id).first()
+    university.deleted = True
+    if university:
+        db_sess.add(university)
         db_sess.commit()
     else:
         abort(404)
@@ -258,6 +258,10 @@ class UniversityForm(FlaskForm):
     address = StringField('Адрес', validators=[DataRequired()])
     submit = SubmitField('Готово')
 
+@app.route('/universities/<int:id>', methods=['GET', 'POST'])
+def view_university(id):
+    university = db_sess.query(Universities).filter_by(id = id).first()
+    return render_template('view_university.html', title='Университет', university=university)
 
 @app.route('/add_university', methods=['GET', 'POST'])
 @login_required
@@ -269,14 +273,6 @@ def add_university():
         db_sess.commit()
         return redirect(f'/universities/{university.id}')
     return render_template('add_university.html', title='Добавить университет', form=form)
-
-
-@app.route('/universities/<int:id>', methods=['GET', 'POST'])
-@login_required
-def view_university(id):
-    university = db_sess.query(Universities).filter_by(id = id).first()
-    return render_template('view_university.html', title='Университет', university=university)
-
 
 @app.route('/edit_university/<int:id>', methods=['GET', 'POST'])
 @login_required
