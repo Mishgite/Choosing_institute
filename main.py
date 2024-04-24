@@ -296,7 +296,7 @@ def edit_university(id):
 @app.route('/update_server', methods=['POST'])
 def webhook():
     if request.method == 'POST':
-        repo = git.Repo('mysite')
+        repo = git.Repo('Choosing_institute')
         origin = repo.remotes.origin
         origin.pull()
         return "Updated PythonAnywhere successfully", 200
