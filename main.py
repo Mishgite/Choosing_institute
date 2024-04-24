@@ -21,7 +21,7 @@ from data.faculties import Faculties
 from data.classes import Classes
 from data.type import Type
 import hashlib
-import git
+
 
 sha256_hash = hashlib.new('sha256')
 
@@ -292,6 +292,7 @@ def edit_university(id):
         db_sess.commit()
         return redirect(f'/universities/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
+
 
 @app.route('/update_server', methods=['POST'])
 def webhook():
