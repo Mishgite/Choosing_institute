@@ -21,7 +21,6 @@ from data.faculties import Faculties
 from data.classes import Classes
 from data.type import Type
 import hashlib
-import git
 
 sha256_hash = hashlib.new('sha256')
 
@@ -292,17 +291,6 @@ def edit_university(id):
         db_sess.commit()
         return redirect(f'/universities/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
-
-@app.route('/update_server', methods=['POST'])
-def webhook():
-    if request.method == 'POST':
-        repo = git.Repo('Choosing_institute')
-        origin = repo.remotes.origin
-        origin.pull()
-        return "Updated PythonAnywhere successfully", 200
-    else:
-        return "Wrong event type", 400
-
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'random_key'
