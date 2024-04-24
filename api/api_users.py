@@ -56,8 +56,7 @@ def create_user():
     user = User()
     user.name = request.json['name']
     user.surname = request.json['surname']
-    sha256_hash.update(request.json['password'].encode())
-    user.hashed_password = sha256_hash.hexdigest()
+    user.hashed_password = request.json['password']
     user.address = request.json['address']
     user.email = request.json['email']
     user.min_ege_score = request.json['min_ege_score']

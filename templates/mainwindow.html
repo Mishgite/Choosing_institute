@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 {% if current_user.is_authenticated and current_user.type == 4 %}
-<a class="contain btn btn-outline-primary" href="http://localhost:5000/add_university">Добавить университет</a>
+<a class="contain btn btn-outline-primary" href="/add_university">Добавить университет</a>
 {% endif %}
 <main class="container form-signin w-80 m-auto">
     <h2 align="center">Университеты</h2>
@@ -30,10 +30,10 @@
                 <td>{{ faculties[0].score }}</td>
                 <td>
                     {% if current_user.is_authenticated and current_user.type == 2 %}
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ faculties[0].id }}">Отправить заявление на приём</a>
+                    <a class="btn btn-outline-primary" href="/sending/{{ faculties[0].id }}">Отправить заявление на приём</a>
                     {% endif %}
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/universities/{{ university.id }}">Просмотр университета</a>
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ faculties[0].id }}">Просмотр факультета</a>
+                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/faculties/{{ faculties[0].id }}">Просмотр факультета</a>
                 </td>
             </tr>
             {% else %}
@@ -44,7 +44,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
                 </td>
             </tr>
             {% endif %}
@@ -55,10 +55,10 @@
                 <td>{{ faculty.score }}</td>
                 <td>
                     {% if current_user.is_authenticated and current_user.type == 2 %}
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/sending/{{ faculty.id }}">Отправить заявление на приём</a>
+                    <a class="btn btn-outline-primary" href="/sending/{{ faculty.id }}">Отправить заявление на приём</a>
                     {% endif %}
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/universities/{{ university.id }}">Просмотр университета</a>
-                    <a class="btn btn-outline-primary" href="http://localhost:5000/faculties/{{ faculty.id }}">Просмотр факультета</a>
+                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/faculties/{{ faculty.id }}">Просмотр факультета</a>
                 </td>
             </tr>
             {% endif %}

@@ -125,8 +125,7 @@ def register():
         user.surname = form.surname.data
         user.name = form.name.data
         user.email = form.email.data
-        sha256_hash.update(form.password.data.encode())
-        user.hashed_password = sha256_hash.hexdigest()
+        user.hashed_password = form.password.data
         user.address = form.address.data
         user.min_ege_score = form.min_ege_score.data
         db_sess.add(user)
@@ -195,8 +194,7 @@ def edit_job(id: int):
             user = db_sess.query(User).filter(User.id == id).first()
         if user:
             user.email = form.email.data
-            sha256_hash.update(form.password.data.encode())
-            user.hashed_password = sha256_hash.hexdigest()
+            user.hashed_password = form.password.data
             user.surname = form.surname.data
             user.name = form.name.data
             form.address.data = user.address

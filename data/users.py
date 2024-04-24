@@ -25,5 +25,5 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     type = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
 
     def check_password(self, password: str) -> bool:
-        sha256_hash.update(password.encode())
-        return sha256_hash.hexdigest() == self.hashed_password
+        # sha256_hash.update(password.encode())
+        return password == self.hashed_password
