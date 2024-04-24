@@ -128,6 +128,7 @@ def register():
         user.hashed_password = form.password.data
         user.address = form.address.data
         user.min_ege_score = form.min_ege_score.data
+        user.type = 2
         db_sess.add(user)
         db_sess.commit()
         print(user.surname)
