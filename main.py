@@ -293,11 +293,11 @@ def edit_university(id):
         return redirect(f'/universities/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
 
-@app.route('/update_server', methods=['POST']) 
+@app.route('/update_server', methods=['POST'])
 def webhook():
-    if request.method 'POST'
-        repo - git.Repo('mysite'
-        origin repo.remotes.origin
+    if request.method == 'POST':
+        repo = git.Repo('mysite')
+        origin = repo.remotes.origin
         origin.pull()
         return "Updated PythonAnywhere successfully", 200
     else:
