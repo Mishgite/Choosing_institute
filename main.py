@@ -21,7 +21,7 @@ from data.faculties import Faculties
 from data.classes import Classes
 from data.type import Type
 import hashlib
-
+import git
 
 sha256_hash = hashlib.new('sha256')
 
@@ -293,7 +293,6 @@ def edit_university(id):
         return redirect(f'/universities/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
 
-
 @app.route('/update_server', methods=['POST'])
 def webhook():
     if request.method == 'POST':
@@ -312,8 +311,6 @@ app.config['SECRET_KEY'] = 'random_key'
 if __name__ == '__main__':
     from api import api_users, api_universities
     from resources import users_resource, universities_resource
-
-
 
     api.add_resource(users_resource.UsersResource, '/api/v2/users/<int:user_id>')
     api.add_resource(users_resource.UsersListResource, '/api/v2/users')
