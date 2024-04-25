@@ -19,7 +19,7 @@
                 <td>Действия</td>
             </tr>
             {% for university in universities %}
-            {% set faculties = university.faculties %}
+            {% set faculties = university.faculties|selectattr('deleted', 'equalto', false)|list %}
             {% set f_number = faculties|length %}
             {% if f_number > 0 %}
             <tr>
@@ -32,8 +32,8 @@
                     {% if current_user.is_authenticated and current_user.type == 2 %}
                     <a class="btn btn-outline-primary" href="/sending/{{ faculties[0].id }}">Отправить заявление на приём</a>
                     {% endif %}
-                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
-                    <a class="btn btn-outline-primary" href="/faculties/{{ faculties[0].id }}">Просмотр факультета</a>
+                    <a class="btn btn-outline-primary" href="/view_university/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/view_faculty/{{ faculties[0].id }}">Просмотр факультета</a>
                 </td>
             </tr>
             {% else %}
@@ -44,7 +44,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/view_university/{{ university.id }}">Просмотр университета</a>
                 </td>
             </tr>
             {% endif %}
@@ -57,8 +57,8 @@
                     {% if current_user.is_authenticated and current_user.type == 2 %}
                     <a class="btn btn-outline-primary" href="/sending/{{ faculty.id }}">Отправить заявление на приём</a>
                     {% endif %}
-                    <a class="btn btn-outline-primary" href="/universities/{{ university.id }}">Просмотр университета</a>
-                    <a class="btn btn-outline-primary" href="/faculties/{{ faculty.id }}">Просмотр факультета</a>
+                    <a class="btn btn-outline-primary" href="/view_university/{{ university.id }}">Просмотр университета</a>
+                    <a class="btn btn-outline-primary" href="/view_faculty/{{ faculty.id }}">Просмотр факультета</a>
                 </td>
             </tr>
             {% endif %}

@@ -13,4 +13,5 @@ class Faculties(SqlAlchemyBase, SerializerMixin):
     name = sa.Column(sa.String, nullable=False)
     university_id = sa.Column(sa.String, sa.ForeignKey('universities.id'), nullable=False)
     score = sa.Column(sa.Integer, nullable=True)
+    deleted = sa.Column(sa.Boolean, default=False, nullable=False)
     fclasses = relationship(Classes, secondary='faculties_classes')

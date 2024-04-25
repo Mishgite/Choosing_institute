@@ -47,44 +47,25 @@
       </ul>
     </div>
 <main class="container form-signin w-50 m-auto">
-    {% if current_user.is_authenticated and current_user.type == 4 %}
-    <a class="btn btn-outline-primary" href="http://localhost:5000/edit_university/{{ university.id }}">Редактировать университет</a>
-    <a class="btn btn-outline-primary" href="http://localhost:5000/delete_university/{{ university.id }}">Удалить университет</a>
-    {% endif %}
-        <h2 align="center">Университет</h2>
-            <table class="tbl">
-                <tr>
-                    <td>Название</td>
-                    <td>{{ university.name }}</td>
-                </tr>
-                <tr>
-                    <td>Почта</td>
-                    <td>{{ university.email }}</td>
-                </tr>
-                <tr>
-                    <td>Адрес</td>
-                    <td>{{ university.address }}</td>
-                </tr>
-            </table>
-{% if current_user.is_authenticated and current_user.type == 4 %}
-<a class="btn btn-outline-primary" href="/add_faculty/{{ university.id }}">Добавить факультет</a>
-{% endif %}
-<h2 align="center">Факультеты</h2>
-<table class="tbl">
-  <tr class="mn">
-    <td>Название</td>
-    <td>Проходной балл</td>
-    <td>Засчитываемые предметы</td>
-    <td>Действия</td>  
-  </tr>
-  {% for faculty in university.faculties %}
-  <tr>
-    <td>{{ faculty.name }}</td>
-    <td>{{ faculty.score }}</td>
-    <td>{% for fclass in faculty.fclasses %}{{ fclass.name }}<br>{% endfor %}</td>
-    <td><a class="btn btn-outline-primary" href="/view_faculty/{{faculty.id}}">Просмотор факультета</a></td>
-  </tr>
-  {% endfor %}
-</table>
+    <h2 align="center">Факультет</h2>
+    <a class="btn btn-outline-primary" href="/view_university/{{faculty.university_id}}">Университет</a>
+    <a class="btn btn-outline-primary" href="/edit_faculty/{{faculty.id}}">Редактировать факультет</a>
+    <a class="btn btn-outline-primary" href="/delete_faculty/{{faculty.id}}">Удалить факультет</a>
+        <table class="tbl">
+          <tr>
+              <td>Название</td>
+              <td>{{ faculty.name }}</td>
+          </tr>
+          <tr>
+              <td>Проходной балл</td>
+              <td>{{ faculty.score }}</td>
+          </tr>
+          <tr>
+              <td>Предметы</td>
+              <td>{% for fclass in faculty.fclasses %}{{ fclass.name }}<br>{% endfor %}</td>
+          </tr>
+      </table>
+   
 </main>
+
 {% endblock %}

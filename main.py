@@ -8,7 +8,7 @@ from data import db_session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from requests import session
-from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, IntegerField, DateField
+from wtforms import StringField, PasswordField, SubmitField, EmailField, BooleanField, IntegerField, DateField, FieldList, SelectField, FormField
 from wtforms.validators import DataRequired, Email, NumberRange
 from flask_wtf import FlaskForm
 from flask_login import login_user, current_user, LoginManager, logout_user, login_required
@@ -137,12 +137,6 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/faculties/<int:id>')
-def faculties(id):
-    universities = db_sess.query(Faculties).filter(Faculties.university_id == id)
-    return render_template('faculties.html', title='Журнал факультетов', universities=universities)
-
-
 @app.route('/user_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def user_delete(id: int):
@@ -207,19 +201,6 @@ def edit_job(id: int):
     return render_template('user_change.html', title='Изменить работу', form=form)
 
 
-@app.route('/delete_university/<int:id>', methods=['GET', 'POST'])
-@login_required
-def delete_university(id: int):
-    university = db_sess.query(Universities).filter(Universities.id == id).first()
-    university.deleted = True
-    if university:
-        db_sess.add(university)
-        db_sess.commit()
-    else:
-        abort(404)
-    return redirect('/')
-
-
 @app.route('/faculties_classes/<int:id>', methods=['GET', 'POST'])
 def faculties_classes(id):
     classes = db_sess.query(Classes).filter(Faculties_classes.faculty_id == id,
@@ -252,6 +233,7 @@ def sending(id):
     faculties = db_sess.query(Faculties).filter(Faculties.university_id == id)
     return render_template('sending.html', title='Журнал факультетов', faculties=faculties)
 
+# Universities
 
 class UniversityForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
@@ -259,9 +241,10 @@ class UniversityForm(FlaskForm):
     address = StringField('Адрес', validators=[DataRequired()])
     submit = SubmitField('Готово')
 
-@app.route('/universities/<int:id>', methods=['GET', 'POST'])
+
+@app.route('/view_university/<int:id>', methods=['GET', 'POST'])
 def view_university(id):
-    university = db_sess.query(Universities).filter_by(id = id).first()
+    university = db_sess.query(Universities).filter_by(id=id).first()
     return render_template('view_university.html', title='Университет', university=university)
 
 @app.route('/add_university', methods=['GET', 'POST'])
@@ -272,7 +255,7 @@ def add_university():
         university = Universities(name=form.name.data, email=form.email.data, address=form.address.data)
         db_sess.add(university)
         db_sess.commit()
-        return redirect(f'/universities/{university.id}')
+        return redirect(f'/view_university/{university.id}')
     return render_template('add_university.html', title='Добавить университет', form=form)
 
 @app.route('/edit_university/<int:id>', methods=['GET', 'POST'])
@@ -286,8 +269,86 @@ def edit_university(id):
         university.address = form.address.data
         db_sess.add(university)
         db_sess.commit()
-        return redirect(f'/universities/{university.id}')
+        return redirect(f'/view_university/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
+
+@app.route('/delete_university/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_university(id: int):
+    university = db_sess.query(Universities).filter(Universities.id == id).first()
+    university.deleted = True
+    db_sess.add(university)
+    db_sess.commit()
+    return redirect('/')
+
+# Faculties
+
+class FacultyForm(FlaskForm):
+    name = StringField('Название', validators=[DataRequired()])
+    score = IntegerField('Проходной балл', validators=[DataRequired()])
+    # hidden_classes_field = SelectField("Classes")
+    fclasses = FieldList(SelectField("Предмет"), min_entries=1)
+    submit = SubmitField('Готово')
+
+@app.route('/view_faculty/<int:id>')
+def faculties(id):
+    faculty = db_sess.query(Faculties).filter(Faculties.id == id).first()
+    return render_template('view_faculty.html', title='Факультет', faculty=faculty)
+
+@app.route('/add_faculty/<int:id>', methods=['GET', 'POST'])
+@login_required
+def add_faculty(id: int):
+    form = FacultyForm()
+    f_classes = db_sess.query(Classes).all()
+    choices = [ (f_class.id, f_class.name) for f_class in f_classes]
+    for entry in form.fclasses.entries:
+        entry.choices = choices
+
+    if form.validate_on_submit():
+        fclasses= []
+        for entry in form.fclasses.entries:
+            fclass = db_sess.query(Classes).filter_by(id=entry.data).first()
+            fclasses.append(fclass)
+        
+        faculty = Faculties(university_id=id, name=form.name.data, score=form.score.data, fclasses=fclasses)
+        db_sess.add(faculty)
+        db_sess.commit()
+        return redirect(f'/view_faculty/{faculty.id}')
+    return render_template('add_faculty.html', title='Добавить факультет', form=form)
+
+@app.route('/edit_faculty/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_faculty(id: int):
+    faculty = db_sess.query(Faculties).filter_by(id=id).first()
+    form = FacultyForm(name=faculty.name, score=faculty.score, fclasses=[f_class.id for f_class in faculty.fclasses])
+    f_classes = db_sess.query(Classes).all()
+    choices = [ (f_class.id, f_class.name) for f_class in f_classes]
+    for entry in form.fclasses.entries:
+        entry.choices = choices
+
+    if form.validate_on_submit():
+        faculty.name = form.name.data
+        faculty.score = form.score.data
+        fclasses= []
+        for entry in form.fclasses.entries:
+            fclass = db_sess.query(Classes).filter_by(id=entry.data).first()
+            fclasses.append(fclass)
+        faculty.fclasses = fclasses
+        db_sess.add(faculty)
+        db_sess.commit()
+        return redirect(f'/view_faculty/{id}')
+    return render_template('edit_faculty.html', title='Редактировать университет', form=form)
+
+
+@app.route('/delete_faculty/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_faculty(id: int):
+    faculty = db_sess.query(Faculties).filter_by(id=id).first()
+    faculty.deleted = True
+    db_sess.add(faculty)
+    db_sess.commit()
+    return redirect('/')
+
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'random_key'

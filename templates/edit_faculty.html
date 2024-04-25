@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="container form-signin w-80 m-auto">
+	<h2>Факультет</h2>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.score.label }}<br>
+            {{ form.score(class="form-control") }}<br>
+            {% for error in form.score.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <h3>Засчитываемые предметы</h3>
+        <p><button type="button" id="add-class-field">Добавить предмет</button></p>
+        <p>
+            {{ form.fclasses }}<br>
+            {% for error in form.fclasses.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
+    <script>
+    let classes_field = document.getElementById('fclasses-0')
+    let form_field = document.getElementsByTagName('form')[0]
+    form_field.insertAdjacentHTML('beforeend', '<input id="classes_number" name="classes_number" type="hidden" value="1">')
+    let classes_number_field = document.getElementById('classes_number')
+    let addClassFieldBtn = document.getElementById('add-class-field');
+    addClassFieldBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        let allClassesFieldWrapper = document.getElementById('fclasses');
+        let allClassesField = allClassesFieldWrapper.getElementsByTagName('select');
+        let classInputIds = [];
+        for(let i = 0; i < allClassesField.length; i++) {
+            classInputIds.push(parseInt(allClassesField[i].name.split('-')[1]));
+        }
+        let classInputId = Math.max(...classInputIds) + 1
+        let newFieldName = `fclasses-${classInputId}`
+        let s_option = ''
+        for (let option of classes_field.options){
+            s_option += `<option value="${option.value}">${option.text}</option>`
+        }
+        allClassesFieldWrapper.insertAdjacentHTML('beforeend',`
+        <li>
+            <label for="${newFieldName}">Предмет</label>
+            <select id="${newFieldName}" name="${newFieldName}">${s_option}</select>
+        </li>
+        `);
+        classes_number_field.value = parseInt(classes_number_field.value) + 1
+
+    });
+    </script>
+{% endblock %}
