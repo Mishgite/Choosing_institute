@@ -247,6 +247,7 @@ def view_university(id):
     university = db_sess.query(Universities).filter_by(id=id).first()
     return render_template('view_university.html', title='Университет', university=university)
 
+
 @app.route('/add_university', methods=['GET', 'POST'])
 @login_required
 def add_university():
@@ -257,6 +258,7 @@ def add_university():
         db_sess.commit()
         return redirect(f'/view_university/{university.id}')
     return render_template('add_university.html', title='Добавить университет', form=form)
+
 
 @app.route('/edit_university/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -272,6 +274,7 @@ def edit_university(id):
         return redirect(f'/view_university/{university.id}')
     return render_template('edit_university.html', title='Редактировать университет', form=form)
 
+
 @app.route('/delete_university/<int:id>', methods=['GET', 'POST'])
 @login_required
 def delete_university(id: int):
@@ -283,6 +286,7 @@ def delete_university(id: int):
 
 # Faculties
 
+
 class FacultyForm(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
     score = IntegerField('Проходной балл', validators=[DataRequired()])
@@ -290,10 +294,12 @@ class FacultyForm(FlaskForm):
     fclasses = FieldList(SelectField("Предмет"), min_entries=1)
     submit = SubmitField('Готово')
 
+
 @app.route('/view_faculty/<int:id>')
 def faculties(id):
     faculty = db_sess.query(Faculties).filter(Faculties.id == id).first()
     return render_template('view_faculty.html', title='Факультет', faculty=faculty)
+
 
 @app.route('/add_faculty/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -315,6 +321,7 @@ def add_faculty(id: int):
         db_sess.commit()
         return redirect(f'/view_faculty/{faculty.id}')
     return render_template('add_faculty.html', title='Добавить факультет', form=form)
+
 
 @app.route('/edit_faculty/<int:id>', methods=['GET', 'POST'])
 @login_required
